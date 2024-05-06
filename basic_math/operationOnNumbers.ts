@@ -52,7 +52,7 @@ const isPrime = (num: number) => {
   for (let i = 1; i * i <= num; i++) {
     if (num % i === 0) {
       factorCount++;
-      if ((num / i) !== i) {
+      if (num / i !== i) {
         factorCount++;
       }
     }
@@ -65,4 +65,35 @@ const isPrime = (num: number) => {
 };
 
 const result = isPrime(11);
-console.log("isPrime", result);
+// console.log("isPrime", result);
+
+const findHCF1 = (num1: number, num2: number): number => {
+  let hcf = 1;
+  for (let i = Math.min(num1, num2); i >= 1; i--) {
+    if (num1 % i === 0 && num2 % i === 0) {
+      hcf = i;
+      break;
+    }
+  }
+  return hcf;
+};
+
+// euclidean theorem
+const findHCF2 = (num1: number, num2: number): number => {
+  while (num1 > 0 && num2 > 0) {
+    if (num1 > num2) {
+      num1 = num1 % num2;
+    } else {
+      num2 = num2 % num1;
+    }
+    console.log({ num1, num2 });
+  }
+  if (num1 === 0) {
+    return num2;
+  } else {
+    return num1;
+  }
+};
+
+const hcf = findHCF2(36, 20); // 20, 20 -> 0, 20
+console.log(hcf);
