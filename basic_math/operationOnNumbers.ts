@@ -44,5 +44,25 @@ const checkPalindrom = (num: number): boolean => {
   return reversedNumber === originalNumber;
 };
 
-let result = toReversedNumber(-1234);
-console.log(result);
+// let result = toReversedNumber(-1234);
+// console.log(result);
+
+const isPrime = (num: number) => {
+  let factorCount = 0;
+  for (let i = 1; i * i <= num; i++) {
+    if (num % i === 0) {
+      factorCount++;
+      if ((num / i) !== i) {
+        factorCount++;
+      }
+    }
+  }
+  if (factorCount === 2) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const result = isPrime(11);
+console.log("isPrime", result);
