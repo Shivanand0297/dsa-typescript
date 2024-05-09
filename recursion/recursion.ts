@@ -59,4 +59,37 @@ function printReverseNumbersByBacktracking(count: number, number: number){
   console.log(count)
 }
 
-printReverseNumbersByBacktracking(1, 5)
+// printReverseNumbersByBacktracking(1, 5)
+
+// paramaterised way
+function sumOfFirstNaturalNum(i: number, sum: number) {
+  if(i < 1) {
+    console.log("sum: ", sum);
+    return;
+  }
+  sumOfFirstNaturalNum(i - 1, sum + i);
+  // sum = sum + i;
+  // console.log("sum", sum);
+}
+
+// sumOfFirstNaturalNum(6, 0) // 5 + 4 + 3 + 2 + 1
+
+function sumOfFirstNaturalNumber (num: number): number {
+  if(num === 0) {
+    return 0;
+  } else {
+    return num + sumOfFirstNaturalNumber(num - 1)
+  }
+}
+
+// console.log(sumOfFirstNaturalNumber(5))
+
+function factorialOfNumber(num: number): number {
+  if(num === 0) {
+    return 1;
+  } else {
+    return num * factorialOfNumber(num - 1);
+  }
+}
+
+console.log(factorialOfNumber(4));
