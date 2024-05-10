@@ -2,7 +2,7 @@
 
 /**
  * Prints name `times` number of times, starting from `num`.
- * 
+ *
  * @param num - The starting number.
  * @param times - The number of times to print the string.
  * @returns void
@@ -22,11 +22,9 @@ const printNtimes = (num: number, times: number) => {
 // TC -> o(n)
 // SC -> o(n)
 
-
-
 /**
  * Prints numbers from 1 to the specified number.
- * 
+ *
  * @param count - The current number to print.
  * @param number - The maximum number to print.
  */
@@ -40,9 +38,8 @@ function printNumbers(count: number, number: number) {
 
 // console.log(printNumbers(1, 7));
 
-
 function printNumbersByBacktracking(count: number, number: number) {
-  if(count < 1) {
+  if (count < 1) {
     return;
   }
   printNumbersByBacktracking(count - 1, number);
@@ -51,19 +48,19 @@ function printNumbersByBacktracking(count: number, number: number) {
 
 // printNumbersByBacktracking(5, 5)
 
-function printReverseNumbersByBacktracking(count: number, number: number){
-  if(count > number) {
+function printReverseNumbersByBacktracking(count: number, number: number) {
+  if (count > number) {
     return;
   }
   printReverseNumbersByBacktracking(count + 1, number);
-  console.log(count)
+  console.log(count);
 }
 
 // printReverseNumbersByBacktracking(1, 5)
 
 // paramaterised way
 function sumOfFirstNaturalNum(i: number, sum: number) {
-  if(i < 1) {
+  if (i < 1) {
     console.log("sum: ", sum);
     return;
   }
@@ -74,22 +71,46 @@ function sumOfFirstNaturalNum(i: number, sum: number) {
 
 // sumOfFirstNaturalNum(6, 0) // 5 + 4 + 3 + 2 + 1
 
-function sumOfFirstNaturalNumber (num: number): number {
-  if(num === 0) {
+function sumOfFirstNaturalNumber(num: number): number {
+  if (num === 0) {
     return 0;
   } else {
-    return num + sumOfFirstNaturalNumber(num - 1)
+    return num + sumOfFirstNaturalNumber(num - 1);
   }
 }
 
 // console.log(sumOfFirstNaturalNumber(5))
 
 function factorialOfNumber(num: number): number {
-  if(num === 0) {
+  if (num === 0) {
     return 1;
   } else {
     return num * factorialOfNumber(num - 1);
   }
 }
 
-console.log(factorialOfNumber(4));
+// console.log(factorialOfNumber(4));  //? 4 + f(3) + f(2) + f(1) + f(0)
+
+function swap<T>(array: T[], a: number, b: number) {
+  // 1, 2
+  let tempElement = array[a]; // 1
+  array[a] = array[b]; // 2
+  array[b] = tempElement; //1
+
+  // a = a + b; // 1 + 2 = 3
+  // b = a - b; // 3 - 2 = 1
+  // a = a - b;  // 3 - 1 = 2
+}
+
+let array = [1, 2, 3, 4, 5];
+function reverseArray<T>(index: number, array: T[]) {
+  if (index >= array.length / 2) {
+    return;
+  }
+
+  swap<T>(array, index, array.length - 1 - index);
+  reverseArray(index + 1, array);
+}
+
+reverseArray(0, array);
+console.log("reversed array", array);
