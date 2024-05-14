@@ -112,5 +112,35 @@ function reverseArray<T>(index: number, array: T[]) {
   reverseArray(index + 1, array);
 }
 
-reverseArray(0, array);
-console.log("reversed array", array);
+// reverseArray(0, array);
+// console.log("reversed array", array);
+
+
+function checkPalindrom (str: string, i: number): boolean {
+  
+  // we can also use Math.floor() to skip the last step
+  if(i >= str.length / 2) {
+    return true;
+  }
+
+  // repeatative task
+  if (str[i] !== str[str.length - 1 - i]) {
+    return false;
+  }
+
+  return checkPalindrom(str, i + 1);
+}
+
+// console.log(checkPalindrom("11211", 0))
+
+// 0 1 1 2 3 5 8 ...
+function printFibonachi (index: number): number {
+  if(index <= 1) {
+    return index;
+  }
+
+  let lastfibonachi = printFibonachi(index - 1);
+  let secondLastfibonachi = printFibonachi(index - 2);
+  return secondLastfibonachi + lastfibonachi;
+}
+console.log(printFibonachi(6))
