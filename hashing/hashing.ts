@@ -48,7 +48,7 @@ function findCharacterCount(str: string, char: string): number {
 function numberHash(array: number[], target: number) {
   let numberMap = new Map<number, number>();
   array.forEach((element) => {
-    numberMap.set(element, ((numberMap.get(element) || 0) + 1));
+    numberMap.set(element, (numberMap.get(element) || 0) + 1);
   });
 
   console.log(numberMap);
@@ -60,4 +60,29 @@ function numberHash(array: number[], target: number) {
   }
 }
 
-console.log(numberHash([1, 2, 2, 5, 6, 2], 2));
+// console.log(numberHash([1, 2, 2, 5, 6, 2], 2));
+
+function findHighAndLowFreq(array: number[]) {
+  let highFreqCount = 0;
+  let highFreqKey = 0;
+  let lowFreqCount = 0;
+  let lowFreqKey = 0;
+  let numberMap = new Map<number, number>();
+  array.forEach((element) => {
+    numberMap.set(element, (numberMap.get(element) || 0) + 1);
+  });
+
+  numberMap.forEach((value, key) => {
+    if (value > highFreqCount) {
+      highFreqCount = value;
+      highFreqKey = key;
+    } else {
+      lowFreqCount = value;
+      lowFreqKey = key;
+    }
+  });
+
+  return { lowFreqKey, highFreqKey }
+}
+
+findHighAndLowFreq([1, 2, 1, 3, 2, 4, 1, 3])
