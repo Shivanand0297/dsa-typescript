@@ -13,7 +13,7 @@ function selectionSort(array: number[]) {
     let temp = array[mini];
     array[mini] = array[i];
     array[i] = temp;
-    console.log(array)
+    console.log(array);
   }
 
   console.log("sorted array: ", array);
@@ -23,47 +23,91 @@ function selectionSort(array: number[]) {
 // O(n^2)
 
 // select the max element and swap with the next element
-function mergeSort (array: number[]) {
-  for(let i = array.length - 1; i >= 1; i--) {
+function bubbleSort(array: number[]) {
+  for (let i = array.length - 1; i >= 1; i--) {
     let didSwap = 0;
-    for(let j = 0; j <= i - 1; j++) {
-      if(array[j] > array[j+1]){
+    for (let j = 0; j <= i - 1; j++) {
+      if (array[j] > array[j + 1]) {
         let temp = array[j];
-        array[j] = array[j+1]
-        array[j+1] = temp;
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
         didSwap = 1;
       }
     }
-    if(didSwap === 0) {
+    if (didSwap === 0) {
       break;
     }
   }
 
-  console.log("mergeSort array", array)
+  console.log("bubbleSort array", array);
 }
 
-mergeSort(tempArray)
+// bubbleSort(tempArray)
 // time complexity
 // best: O(n)
 // worst, average: O(n^2)
 
-
-function insertionSort (array: number[]) {
-  for(let i = 0; i <= array.length - 1; i++) {
+function insertionSort(array: number[]) {
+  for (let i = 0; i <= array.length - 1; i++) {
     let j = i;
-    while(j > 0 && array[j-1] > array[j]){
-      let temp = array[j-1];
-      array[j-1] = array[j];
+    while (j > 0 && array[j - 1] > array[j]) {
+      let temp = array[j - 1];
+      array[j - 1] = array[j];
       array[j] = temp;
       j--;
     }
   }
 
-  console.log("insertion sort:", array)
+  console.log("insertion sort:", array);
 }
 
-insertionSort(tempArray);
+// insertionSort(tempArray);
 // time complexity
 // best: O(n)
 // worst, average: O(n^2)
 
+let arrayToSort = [4, 6, 8, 2, 4];
+function mergeSort(array: number[], low: number, high: number) {
+  if (low >= high) return;
+
+  let mid = Math.floor((low + high) / 2);
+
+  mergeSort(array, low, mid);
+  mergeSort(array, mid + 1, high);
+
+  function merge(low: number, mid: number, high: number) {
+    let left = low;
+    let right = mid + 1;
+    let temp: number[] = [];
+
+    while (left <= mid && right <= high) {
+      if (array[left] <= array[right]) {
+        temp.push(array[left]);
+        left++;
+      } else {
+        temp.push(array[right]);
+        right++;
+      }
+    }
+
+    while (left <= mid) {
+      temp.push(array[left]);
+      left++;
+    }
+
+    while (right <= high) {
+      temp.push(array[right]);
+      right++;
+    }
+
+    // putting the sorted elements from the temp array into the original array
+    for(let i = low; i <= high; i++) {
+      array[i] = temp[i - low];
+    } 
+  }
+  // merge
+  merge(low, mid, high);
+}
+
+mergeSort(arrayToSort, 0, arrayToSort.length - 1);
+console.log("sorted array: ", arrayToSort)
