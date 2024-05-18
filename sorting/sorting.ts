@@ -66,7 +66,7 @@ function insertionSort(array: number[]) {
 // best: O(n)
 // worst, average: O(n^2)
 
-let arrayToSort = [4, 6, 8, 2, 4];
+let arrayToSort = [12, 43, 56, 4, 7, 9, 12, -3];
 function mergeSort(array: number[], low: number, high: number) {
   if (low >= high) return;
 
@@ -101,13 +101,70 @@ function mergeSort(array: number[], low: number, high: number) {
     }
 
     // putting the sorted elements from the temp array into the original array
-    for(let i = low; i <= high; i++) {
+    for (let i = low; i <= high; i++) {
       array[i] = temp[i - low];
-    } 
+    }
   }
   // merge
   merge(low, mid, high);
 }
 
 mergeSort(arrayToSort, 0, arrayToSort.length - 1);
+// console.log("sorted array: ", arrayToSort)
+
+//? ===========================================================//
+
+/**
+ * Returns the partition index of an array using the QuickSort algorithm.
+ * 
+ * @param array - The array to partition.
+ * @param low - The starting index of the partition.
+ * @param high - The ending index of the partition.
+ * @returns The partition index.
+ */
+function getPartitionIndex(array: number[], low: number, high: number): number {
+  let i = low;
+  let j = high;
+  let pivotElement = array[low];
+
+  while (i < j) {
+    while (array[i] <= pivotElement && i < high - 1) {
+      i++;
+    }
+    while (array[j] > pivotElement && j > low - 1) {
+      j--;
+    }
+
+    if (i < j) {
+      // swaping i and j;
+      let temp = array[j];
+      array[j] = array[i];
+      array[i] = temp;
+    }
+  }
+
+  let temp = array[low];
+  array[low] = array[j];
+  array[j] = temp;
+  return j;
+}
+
+/**
+ * Sorts an array of numbers using the Quick Sort algorithm.
+ * 
+ * @param {number[]} array - The array to be sorted.
+ * @param {number} low - The starting index of the subarray to be sorted.
+ * @param {number} high - The ending index of the subarray to be sorted.
+ */
+function quickSort(array: number[], low: number, high: number) {
+  if (low < high) {
+    let pIndex = getPartitionIndex(array, low, high);
+    quickSort(array, low, pIndex - 1);
+    quickSort(array, pIndex + 1, high);
+  }
+}
+
+quickSort(arrayToSort, 0, arrayToSort.length - 1);
 console.log("sorted array: ", arrayToSort)
+
+// ?====================================================================//
