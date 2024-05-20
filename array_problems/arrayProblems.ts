@@ -122,5 +122,71 @@ function isSorted(arr: number[]): boolean {
   return true;
 }
 
-const result = isSorted([1, 2, 3, 4, 7, 7, 2])
-console.log("isSorted", result)
+// const result = isSorted([1, 2, 3, 4, 7, 7, 2])
+// console.log("isSorted", result)
+
+// ========================================================//
+// ? Remove dublicate in place from sorted array;
+// ? arr = [2, 3, 4, 5, 2, 3, 1]
+function removeDublicate(arr: number[]) {
+  let filteredArray = arr.filter((ele, index, self) => (
+    self.indexOf(ele) === index
+  ))
+
+  console.log(filteredArray)
+}
+// brute force;
+function removeDublicate2(arr: number[]) {
+  let arraySet = new Set(arr);
+  let i = 0;
+  arraySet.forEach((value) => {
+    arr[i] = value;
+    i++;
+  })
+
+  console.log({arr, i})
+}
+
+
+// Note: Optimal solution TC: O(n) SC: O(1)
+function removeDublicate3(arr: number[]) {
+  let i = 0;
+  // while(i < arr.length && j < arr.length){
+  //   if(arr[i] !== arr[j]){
+  //     arr[i+1] = arr[j];
+  //     i++;
+  //   }
+  //   j++;
+  // }
+
+  for(let j = 1; j < arr.length; j++) {
+    if(arr[i] !== arr[j]){
+      arr[i+1] = arr[j];
+      i++;
+    }
+  }
+
+  // console.log({arr, unique: i+1})
+  return i + 1;
+}
+
+// removeDublicate3([1, 2, 2, 3, 3])
+
+// ===================================================================//
+
+// ? Left Rotate the Array by One
+
+// brute force;
+
+function leftRotateByOne (arr: number[]) {
+  let firstEle = arr[0];
+
+  for(let i = 0; i <= arr.length - 2; i++) {
+    arr[i] = arr[i+1];
+  }
+  arr[arr.length - 1] = firstEle;
+
+  console.log(arr)
+}
+
+leftRotateByOne([1, 2, 3, 4, 5])
