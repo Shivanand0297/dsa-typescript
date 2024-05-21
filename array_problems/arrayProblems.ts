@@ -113,7 +113,7 @@ function findSecondLargest(array: number[]): number {
 
 function isSorted(arr: number[]): boolean {
   for (let i = 1; i <= arr.length - 1; i++) {
-    if(arr[i] >= arr[i-1]){
+    if (arr[i] >= arr[i - 1]) {
       continue;
     } else {
       return false;
@@ -129,11 +129,9 @@ function isSorted(arr: number[]): boolean {
 // ? Remove dublicate in place from sorted array;
 // ? arr = [2, 3, 4, 5, 2, 3, 1]
 function removeDublicate(arr: number[]) {
-  let filteredArray = arr.filter((ele, index, self) => (
-    self.indexOf(ele) === index
-  ))
+  let filteredArray = arr.filter((ele, index, self) => self.indexOf(ele) === index);
 
-  console.log(filteredArray)
+  console.log(filteredArray);
 }
 // brute force;
 function removeDublicate2(arr: number[]) {
@@ -142,11 +140,10 @@ function removeDublicate2(arr: number[]) {
   arraySet.forEach((value) => {
     arr[i] = value;
     i++;
-  })
+  });
 
-  console.log({arr, i})
+  console.log({ arr, i });
 }
-
 
 // Note: Optimal solution TC: O(n) SC: O(1)
 function removeDublicate3(arr: number[]) {
@@ -159,9 +156,9 @@ function removeDublicate3(arr: number[]) {
   //   j++;
   // }
 
-  for(let j = 1; j < arr.length; j++) {
-    if(arr[i] !== arr[j]){
-      arr[i+1] = arr[j];
+  for (let j = 1; j < arr.length; j++) {
+    if (arr[i] !== arr[j]) {
+      arr[i + 1] = arr[j];
       i++;
     }
   }
@@ -178,15 +175,34 @@ function removeDublicate3(arr: number[]) {
 
 // brute force;
 
-function leftRotateByOne (arr: number[]) {
+function leftRotateByOne(arr: number[]) {
   let firstEle = arr[0];
 
-  for(let i = 0; i <= arr.length - 2; i++) {
-    arr[i] = arr[i+1];
+  for (let i = 0; i <= arr.length - 2; i++) {
+    arr[i] = arr[i + 1];
   }
   arr[arr.length - 1] = firstEle;
 
-  console.log(arr)
+  console.log(arr);
 }
 
-leftRotateByOne([1, 2, 3, 4, 5])
+// leftRotateByOne([1, 2, 3, 4, 5])
+
+function leftRotateByK(arr: number[], k: number) {
+  let tempArr: number[] = [];
+  k = k % arr.length;
+  for (let i = 0; i < k; i++) {
+    tempArr.push(arr[i]); // storing the element before pivot index;
+  }
+
+  for (let j = k; j < arr.length; j++) {
+    arr[j - k] = arr[j];
+  }
+  for (let m = arr.length - k; m < arr.length; m++) {
+    arr[m] = tempArr[m - (arr.length - k)];
+  }
+
+  return arr;
+}
+
+console.log(leftRotateByK([10, 20, 30, 40, 50], 6));
