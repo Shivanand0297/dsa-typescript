@@ -190,7 +190,7 @@ function leftRotateByOne(arr: number[]) {
 
 function leftRotateByK(arr: number[], k: number) {
   let tempArr: number[] = [];
-  k = k % arr.length;
+  k = k % arr.length; //rotating amount can be greater then the lenght of array.
   for (let i = 0; i < k; i++) {
     tempArr.push(arr[i]); // storing the element before pivot index;
   }
@@ -198,6 +198,7 @@ function leftRotateByK(arr: number[], k: number) {
   for (let j = k; j < arr.length; j++) {
     arr[j - k] = arr[j];
   }
+
   for (let m = arr.length - k; m < arr.length; m++) {
     arr[m] = tempArr[m - (arr.length - k)];
   }
@@ -205,4 +206,48 @@ function leftRotateByK(arr: number[], k: number) {
   return arr;
 }
 
-console.log(leftRotateByK([10, 20, 30, 40, 50], 6));
+// console.log(leftRotateByK([10, 20, 30, 40, 50], 6));
+
+// ? Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
+
+function rotateByKSteps(arr: number[], k: number) {
+  let tempArr = [...arr];
+  k = k % arr.length;
+
+  while (k > 0) {
+    for (let i = 0; i <= arr.length - 2; i++) {
+      arr[i + 1] = tempArr[i];
+      if (i === arr.length - 2) {
+        arr[0] = tempArr[tempArr.length - 1];
+      }
+    }
+    tempArr = [...arr];
+    k--;
+  }
+}
+
+// rotateByKSteps([1, 2, 3, 4, 5, 6, 7], 3); //O(k*n)
+
+function rotateByKSteps_2(arr: number[], k: number) {
+  let tempArr: number[] = [];
+  let originalArr = [...arr];
+  k = k % arr.length; //rotating amount can be greater then the lenght of array.
+  for (let i = arr.length - k; i < arr.length; i++) {
+    tempArr.push(arr[i]); // storing the second half of element to rotate;
+  }
+
+  for (let j = 0; j < arr.length - k; j++) {
+    arr[j + k] = originalArr[j];
+  }
+
+
+  for (let m = 0; m < k; m++) {
+    arr[m] = tempArr[m];
+  }
+
+  return arr;
+}
+
+//TC:O(n+k)
+//SC:O(2)
+console.log(rotateByKSteps_2([1, 2, 3, 4, 5, 6, 7], 2)); 
