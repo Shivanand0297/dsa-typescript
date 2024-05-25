@@ -240,7 +240,6 @@ function rotateByKSteps_2(arr: number[], k: number) {
     arr[j + k] = originalArr[j];
   }
 
-
   for (let m = 0; m < k; m++) {
     arr[m] = tempArr[m];
   }
@@ -250,4 +249,24 @@ function rotateByKSteps_2(arr: number[], k: number) {
 
 //TC:O(n+k)
 //SC:O(2)
-console.log(rotateByKSteps_2([1, 2, 3, 4, 5, 6, 7], 2)); 
+// console.log(rotateByKSteps_2([1, 2, 3, 4, 5, 6, 7], 2));
+
+// !==============================================================//
+
+// ? Moce the zero to the end
+function moveZeroToEnd(arr: number[]) {
+  let zeroArr: number[] = [];
+  let nonZeroArr = arr.filter((num) => {
+    if (num === 0) {
+      zeroArr.push(num);
+    }
+    return num !== 0;
+  });
+
+  return [...nonZeroArr, ...zeroArr];
+}
+
+
+// TC: O(n)
+// SC: O(n)
+console.log(moveZeroToEnd([1, 4, 0, 8, 7, 0, 5, 0, 2]));
