@@ -253,7 +253,7 @@ function rotateByKSteps_2(arr: number[], k: number) {
 
 // !==============================================================//
 
-// ? Moce the zero to the end
+// ? Move the zero to the end
 function moveZeroToEnd(arr: number[]) {
   let zeroArr: number[] = [];
   let nonZeroArr = arr.filter((num) => {
@@ -266,7 +266,47 @@ function moveZeroToEnd(arr: number[]) {
   return [...nonZeroArr, ...zeroArr];
 }
 
-
 // TC: O(n)
 // SC: O(n)
-console.log(moveZeroToEnd([1, 4, 0, 8, 7, 0, 5, 0, 2]));
+// console.log(moveZeroToEnd([1, 4, 0, 8, 7, 0, 5, 0, 2]));
+
+/**
+ * Moves the first encountered zero in an array to the end of the array.
+ * If no zero is found, the function returns false.
+ *
+ * @param {number[]} arr - The array of numbers to be modified.
+ * @returns {number[] | boolean} - The modified array with the first zero moved to the end, or false if no zero is found.
+ */
+function moveZeroToEnd_2(nums: number[]) {
+  let firstZeroIndex: number = -1;
+
+  // Find the index of the first zero in the array
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) {
+      firstZeroIndex = i;
+      break;
+    }
+  }
+
+  // Return false if no zero is found
+  if (firstZeroIndex === -1) {
+    return false;
+  }
+
+  // Move the first zero to the end of the array
+  for (let j = firstZeroIndex + 1; j < nums.length; j++) {
+    if (nums[j] !== 0) {
+      // Swap the elements at index j and firstZeroIndex
+      let temp = nums[firstZeroIndex];
+      nums[firstZeroIndex] = nums[j];
+      nums[j] = temp;
+      firstZeroIndex++;
+    }
+  }
+
+  return nums;
+}
+
+// TC: O(n)
+// SC: O(1)
+console.log(moveZeroToEnd_2([0]));
