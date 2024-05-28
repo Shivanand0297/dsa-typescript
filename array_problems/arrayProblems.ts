@@ -309,4 +309,78 @@ function moveZeroToEnd_2(nums: number[]) {
 
 // TC: O(n)
 // SC: O(1)
-console.log(moveZeroToEnd_2([0]));
+// console.log(moveZeroToEnd_2([0, 8, 3, 2]));
+
+// !=================================================================//
+
+/**
+ * ?Problem Statement: Given two sorted arrays, arr1, and arr2 of size n and m. Find the union of two sorted arrays.
+ * @description The union of two arrays can be defined as the common and distinct elements in the two arrays.NOTE: Elements in the union should be in ascending order.
+ * @example 
+ * Example 1:
+  Input:n = 5,m = 5.
+  arr1 = [1,2,3,4,5]  
+  arr2 = [2,3,4,4,5]
+
+  Output: [1,2,3,4,5]
+ */
+
+// ? Brute force approach
+function unionOfTwoArray(arr1: number[], arr2: number[]): number[] {
+  let arrayUnionSet = new Set<number>([...arr1, ...arr2]);
+  const newArray = Array.from(arrayUnionSet).sort((a, b) => a - b);
+  return newArray;
+}
+
+// unionOfTwoArray([1, 2, 3, 4, 5, 6, 7, 11, 12], [2, 3, 4, 4, 5, 8, 9]);
+
+/**
+ * Computes the union of two sorted arrays, ensuring each element is unique in the result.
+ * @param arr1 The first sorted array of numbers.
+ * @param arr2 The second sorted array of numbers.
+ * @returns A sorted array containing the union of the two input arrays.
+ */
+// ? Optimal Solution
+function unionOfTwoArray_2(arr1: number[], arr2: number[]): number[] {
+  let i = 0;
+  let j = 0;
+  let unionArray: number[] = [];
+
+  // Process elements from both arrays until one is exhausted
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] <= arr2[j]) {
+      // Add arr1[i] to unionArray if it's not already present at the end of the array
+      if (unionArray.length === 0 || unionArray[unionArray.length - 1] !== arr1[i]) {
+        unionArray.push(arr1[i]);
+      }
+      i++;
+    } else {
+      // Add arr2[j] to unionArray if it's not already present at the end of the array
+      if (unionArray.length === 0 || unionArray[unionArray.length - 1] !== arr2[j]) {
+        unionArray.push(arr2[j]);
+      }
+      j++;
+    }
+  }
+
+  // Add remaining elements from arr2
+  while (j < arr2.length) {
+    if (unionArray.length === 0 || unionArray[unionArray.length - 1] !== arr2[j]) {
+      unionArray.push(arr2[j]);
+    }
+    j++;
+  }
+
+  // Add remaining elements from arr1
+  while (i < arr1.length) {
+    if (unionArray.length === 0 || unionArray[unionArray.length - 1] !== arr1[i]) {
+      unionArray.push(arr1[i]);
+    }
+    i++;
+  }
+
+  console.log({ unionArray });
+  return unionArray;
+}
+
+unionOfTwoArray_2([1, 2, 3, 4, 5, 6], [3, 4, 6]);
