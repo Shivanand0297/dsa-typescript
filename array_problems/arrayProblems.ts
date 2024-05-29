@@ -383,4 +383,67 @@ function unionOfTwoArray_2(arr1: number[], arr2: number[]): number[] {
   return unionArray;
 }
 
-unionOfTwoArray_2([1, 2, 3, 4, 5, 6], [3, 4, 6]);
+// unionOfTwoArray_2([1, 2, 3, 4, 5, 6], [3, 4, 6]);
+
+// !====================================================================================//
+
+/**
+ * ?Problem Statement: Given two *sorted* arrays, arr1, and arr2 of size n and m. Find the intersection of two sorted arrays.
+ * @description The intersection of two arrays can be defined as the common elements and can have dublicates in the two arrays.NOTE: Elements in the intersection should be in ascending order.
+ * @example 
+ * Example 1:
+  Input:n = 5,m = 5.
+  arr1 = [1, 2, 3, 4, 5, 6, 6]  
+  arr2 = [2, 3, 4, 4, 5, 6, 6]
+
+  Output: [2, 3, 4, 5, 6, 6]
+ */
+
+function intersectionOfTwoArrays(arr1: number[], arr2: number[]): number[] {
+  let intersectionArr: number[] = [];
+  let visitedArray: number[] = new Array(arr2.length).fill(0);
+  for (let i = 0; i < arr1.length; i++) {
+    for (let j = 0; j < arr2.length; j++) {
+      // if arr2[j] > arr1[i] there is no point checking furthor;
+      if (arr2[j] > arr1[i]) {
+        break;
+      }
+
+      if (arr1[i] === arr2[j] && visitedArray[j] === 0) {
+        intersectionArr.push(arr1[i]);
+        visitedArray[j] = 1;
+        break;
+      }
+    }
+  }
+
+  console.log({ intersectionArr });
+  return intersectionArr;
+}
+
+// TC: O(m*n)
+// SC: O(n) | O(m)
+// intersectionOfTwoArrays([1, 2, 3, 4, 4], [2, 3, 4])
+
+// ? Optimal (arrays must be sorted)
+function intersectionOfTwoArrays_2(arr1: number[], arr2: number[]): number[] {
+  let i = 0;
+  let j = 0;
+  let intersectionArray: number[] = [];
+
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      i++;
+    } else if (arr2[j] < arr1[i]) {
+      j++;
+    } else {
+      intersectionArray.push(arr1[i]);
+      i++;
+      j++;
+    }
+  }
+
+  return intersectionArray;
+}
+
+console.log(intersectionOfTwoArrays_2([1, 2, 2, 3, 3, 4, 5, 6], [2, 3, 3, 5, 6, 6, 7]));
