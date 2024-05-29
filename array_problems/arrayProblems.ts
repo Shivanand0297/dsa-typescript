@@ -446,4 +446,25 @@ function intersectionOfTwoArrays_2(arr1: number[], arr2: number[]): number[] {
   return intersectionArray;
 }
 
-console.log(intersectionOfTwoArrays_2([1, 2, 2, 3, 3, 4, 5, 6], [2, 3, 3, 5, 6, 6, 7]));
+// TC: O(n + m)
+// SC: O(1) | O(n + m) in the worst case to store the result the return
+// console.log(intersectionOfTwoArrays_2([1, 2, 2, 3, 3, 4, 5, 6], [2, 3, 3, 5, 6, 6, 7]));
+
+// !================================================================================//
+
+/**
+ * ?Problem Statement: Given an integer N and an array of size N-1 containing N-1 numbers between 1 to N.
+ * ?Find the number(between 1 to N), that is not present in the given array.
+ */
+
+function getMissingNumber(arr: number[], n: number) {
+  // find the sum of n natural number;
+  if (n < 0) return;
+  if(arr.length >= n) return;
+
+  let sum = (n * (n + 1)) / 2;
+  let sumOfGivenArray = arr.reduce((prev, curr) => prev + curr);
+  return sum - sumOfGivenArray;
+}
+
+console.log(getMissingNumber([1, 3], 3))
