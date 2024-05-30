@@ -460,11 +460,70 @@ function intersectionOfTwoArrays_2(arr1: number[], arr2: number[]): number[] {
 function getMissingNumber(arr: number[], n: number) {
   // find the sum of n natural number;
   if (n < 0) return;
-  if(arr.length >= n) return;
+  if (arr.length >= n) return;
 
   let sum = (n * (n + 1)) / 2;
   let sumOfGivenArray = arr.reduce((prev, curr) => prev + curr);
   return sum - sumOfGivenArray;
 }
 
-console.log(getMissingNumber([1, 3], 3))
+// console.log(getMissingNumber([1, 3], 3))
+
+/**
+ * ?Problem Statement: Given an array that contains only 1 and 0 return the count of maximum consecutive ones in the array.
+ *
+ */
+
+/**
+ * Calculates and prints the maximum number of consecutive 1's in an array.
+ * @param arr The array of numbers to be analyzed.
+ */
+function maxConsecutiveOne(arr: number[]) {
+  let count = 0; // Current count of consecutive 1's
+  let maxCountArray: number[] = []; // Array to store counts of consecutive 1's
+
+  // Loop through the array to count consecutive 1's
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === 1) {
+      count++; // Increment count if current element is 1
+    } else {
+      maxCountArray.push(count); // Store current count and reset
+      count = 0;
+    }
+  }
+
+  // Check for the last sequence of 1's
+  if (count > 0) {
+    maxCountArray.push(count);
+  }
+
+  if(maxCountArray.length){
+    // Sort the counts in descending order to find the maximum count
+    maxCountArray.sort((a, b) => b - a);
+    console.log("count: ", maxCountArray[0]); // Print the maximum count of consecutive 1's
+  } else {
+    console.log("count: ", count)
+  }
+}
+
+// maxConsecutiveOne([0, 0, 0, 0, 0, 1]);
+
+
+function maxConsecutiveOne_2 (arr: number[]) {
+  let count = 0; // Current count of consecutive 1's
+  let max = 0;
+
+  // Loop through the array to count consecutive 1's
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === 1) {
+      count++; // Increment count if current element is 1
+      max = Math.max(max, count);
+    } else {
+      count = 0;
+    }
+  }
+
+  console.log("count", count)
+}
+
+maxConsecutiveOne_2([1, 1, 0, 1, 1, 1])
