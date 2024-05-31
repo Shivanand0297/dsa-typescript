@@ -469,29 +469,27 @@ function getMissingNumber_1(arr: number[], n: number) {
       }
     }
 
-    if(!flag) {
-      return i
+    if (!flag) {
+      return i;
     }
   }
 }
 
 // TC: O(n^2)
-// SC: O(1) 
+// SC: O(1)
 // console.log("missing number", getMissingNumber_1([1, 2, 4], 4));
 
-function getMissingNumber_2 (arr: number[], n: number) {
-  let hashArray = new Array(n+1).fill(0);
-  for(let i = 0; i < arr.length; i++){
+function getMissingNumber_2(arr: number[], n: number) {
+  let hashArray = new Array(n + 1).fill(0);
+  for (let i = 0; i < arr.length; i++) {
     hashArray[arr[i]] = 1;
   }
 
-  
-  for(let j = 1; j < hashArray.length; j++){
-    if(hashArray[j] === 0){
+  for (let j = 1; j < hashArray.length; j++) {
+    if (hashArray[j] === 0) {
       return j;
     }
   }
-
 }
 
 // TC: O(2n)
@@ -566,7 +564,88 @@ function maxConsecutiveOne_2(arr: number[]) {
     }
   }
 
-  console.log("count", count);
+  console.log("count", max);
 }
 
+// TC: O(n)
 // maxConsecutiveOne_2([1, 1, 0, 1, 1, 1])
+
+/**
+ * ?Problem Statement: Given a non-empty array of integers arr, every element appears twice except for one. Find that single one.
+ *
+ */
+
+function numberAppearOnce_1(nums: number[]) {
+  for (let i = 0; i < nums.length; i++) {
+    let count = 0;
+    for (let j = 0; j < nums.length; j++) {
+      if (nums[i] === nums[j]) {
+        count++;
+      }
+    }
+    if (count < 2) {
+      return nums[i];
+    }
+  }
+}
+
+// TC: O(n^2)
+// SC: O(1)
+// console.log("number appears once", numberAppearOnce_1([4,1,2,1,2]))
+
+function numberAppearOnce_2(nums: number[]) {
+  // find the maximum of the given array
+  let max = nums[0];
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > max) {
+      max = nums[i];
+    }
+  }
+
+  let hashArray = new Array(max + 1).fill(0);
+
+  for (let j = 0; j < nums.length; j++) {
+    hashArray[nums[j]]++;
+  }
+
+  for (let k = 0; k < nums.length; k++) {
+    if (hashArray[nums[k]] === 1) {
+      return nums[k];
+    }
+  }
+}
+
+// TC: O(n)
+// SC: O(max ele +1)
+// console.log(numberAppearOnce_2([1, 1, 2]));
+
+function numberAppearOnce_3(nums: number[]) {
+  let numberMap = new Map<number, number>();
+  nums.forEach((element) => {
+    numberMap.set(element, (numberMap.get(element) || 0) + 1);
+  });
+
+  for (let [key, value] of numberMap) {
+    if (value === 1) {
+      return key;
+    }
+  }
+}
+
+// TC: O(n + m) n -> array.length m -> (n/2) + 1
+// SC: O(m)
+// console.log(numberAppearOnce_3([1, 1, 2]));
+
+function numberAppearOnce_4(nums: number[]) {
+  let xor = 0;
+  for (let i = 0; i < nums.length; i++) {
+    xor = xor ^ nums[i]; // (m ^ m) = 0; (m ^ 0) = m
+  }
+
+  return xor;
+}
+
+// TC: O(n)
+// SC: O(1)
+console.log(numberAppearOnce_4([4, 1, 2, 1, 2]));
