@@ -457,6 +457,48 @@ function intersectionOfTwoArrays_2(arr1: number[], arr2: number[]): number[] {
  * ?Find the number(between 1 to N), that is not present in the given array.
  */
 
+// Brute force;
+
+function getMissingNumber_1(arr: number[], n: number) {
+  for (let i = 1; i <= n; i++) {
+    let flag = 0;
+    for (let j = 0; j < arr.length; j++) {
+      if (i === arr[j]) {
+        flag = 1;
+        break;
+      }
+    }
+
+    if(!flag) {
+      return i
+    }
+  }
+}
+
+// TC: O(n^2)
+// SC: O(1) 
+// console.log("missing number", getMissingNumber_1([1, 2, 4], 4));
+
+function getMissingNumber_2 (arr: number[], n: number) {
+  let hashArray = new Array(n+1).fill(0);
+  for(let i = 0; i < arr.length; i++){
+    hashArray[arr[i]] = 1;
+  }
+
+  
+  for(let j = 1; j < hashArray.length; j++){
+    if(hashArray[j] === 0){
+      return j;
+    }
+  }
+
+}
+
+// TC: O(2n)
+// SC: O(n+1)
+// console.log("missing number: ", getMissingNumber_2([1, 2, 4], 4))
+
+// Optimal;
 function getMissingNumber(arr: number[], n: number) {
   // find the sum of n natural number;
   if (n < 0) return;
@@ -467,6 +509,8 @@ function getMissingNumber(arr: number[], n: number) {
   return sum - sumOfGivenArray;
 }
 
+// TC: O(n)
+// SC: O(1)
 // console.log(getMissingNumber([1, 3], 3))
 
 /**
@@ -497,19 +541,18 @@ function maxConsecutiveOne(arr: number[]) {
     maxCountArray.push(count);
   }
 
-  if(maxCountArray.length){
+  if (maxCountArray.length) {
     // Sort the counts in descending order to find the maximum count
     maxCountArray.sort((a, b) => b - a);
     console.log("count: ", maxCountArray[0]); // Print the maximum count of consecutive 1's
   } else {
-    console.log("count: ", count)
+    console.log("count: ", count);
   }
 }
 
 // maxConsecutiveOne([0, 0, 0, 0, 0, 1]);
 
-
-function maxConsecutiveOne_2 (arr: number[]) {
+function maxConsecutiveOne_2(arr: number[]) {
   let count = 0; // Current count of consecutive 1's
   let max = 0;
 
@@ -523,7 +566,7 @@ function maxConsecutiveOne_2 (arr: number[]) {
     }
   }
 
-  console.log("count", count)
+  console.log("count", count);
 }
 
-maxConsecutiveOne_2([1, 1, 0, 1, 1, 1])
+// maxConsecutiveOne_2([1, 1, 0, 1, 1, 1])
