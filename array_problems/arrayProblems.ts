@@ -497,7 +497,7 @@ function getMissingNumber_2(arr: number[], n: number) {
 // console.log("missing number: ", getMissingNumber_2([1, 2, 4], 4))
 
 // Optimal;
-function getMissingNumber(arr: number[], n: number) {
+function getMissingNumber_3(arr: number[], n: number) {
   // find the sum of n natural number;
   if (n < 0) return;
   if (arr.length >= n) return;
@@ -509,7 +509,10 @@ function getMissingNumber(arr: number[], n: number) {
 
 // TC: O(n)
 // SC: O(1)
-// console.log(getMissingNumber([1, 3], 3))
+// console.log(getMissingNumber_3([1, 3], 3))
+
+// !=========================================================================//
+
 
 /**
  * ?Problem Statement: Given an array that contains only 1 and 0 return the count of maximum consecutive ones in the array.
@@ -569,6 +572,8 @@ function maxConsecutiveOne_2(arr: number[]) {
 
 // TC: O(n)
 // maxConsecutiveOne_2([1, 1, 0, 1, 1, 1])
+
+// !=========================================================================//
 
 /**
  * ?Problem Statement: Given a non-empty array of integers arr, every element appears twice except for one. Find that single one.
@@ -648,4 +653,121 @@ function numberAppearOnce_4(nums: number[]) {
 
 // TC: O(n)
 // SC: O(1)
-console.log(numberAppearOnce_4([4, 1, 2, 1, 2]));
+// console.log(numberAppearOnce_4([4, 1, 2, 1, 2]));
+
+// !=========================================================================//
+
+
+/**
+ * ? Longest Subarray with given Sum K(Positives)
+ * @example
+ * Example 1:
+ * Input Format: N = 3, k = 5, array[] = {2,3,5}
+ * Result: 2
+ * Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
+ * Example 2:
+ * Input Format: N = 5, k = 10, array[] = {2,3,5,1,9}
+ * Result: 3
+ * Explanation: The longest subarray with sum 10 is {2, 3, 5}. And its length is 3.
+ */
+
+// brute
+function longestSubArrayWithSumK_1(arr: number[], k: number) {
+  let maxLength = 0;
+  for (let i = 0; i < arr.length; i++) {
+    let sum = 0;
+    for (let j = i; j < arr.length; j++) {
+      sum += arr[j];
+
+      if (sum === k) {
+        maxLength = Math.max(maxLength, j - i + 1);
+      }
+    }
+  }
+  console.log("maxLength", maxLength);
+}
+
+// TC: O(n^2)
+// SC: O(1)
+// longestSubArrayWithSumK_1([2, 3, 5, 1, 9], 10);
+
+// ! also works array with zero and negative numbers;
+function longestSubArrayWithSumK_2(arr: number[], k: number) {
+  let sum = 0;
+  let maxLength = 0;
+  let preSumMap = new Map<number, number>();
+
+  // loop and find the sum of subarray;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+
+    // if sum = k then update the maxLength
+    if (sum === k) {
+      maxLength = Math.max(maxLength, i + 1);
+    }
+
+    let remSum = sum - k;
+
+    // calculate the length and update maxLength
+    if (preSumMap.has(remSum)) {
+      let previousIndex = preSumMap.get(remSum);
+      if (previousIndex !== undefined) {
+        // Ensure the value is not undefined
+        let len = i - previousIndex;
+        maxLength = Math.max(maxLength, len);
+      }
+    }
+
+    // only add the sum in the array if it is not present
+    // because if array has 0's in it then sum in the preSumMap will get updated;
+    // and we would end up with the minimum subarray with the sum k but we want longest subarray with sum k;
+    if (!preSumMap.has(sum)) {
+      preSumMap.set(sum, i);
+    }
+  }
+
+  return maxLength;
+}
+
+// TC: O(n)
+// SC: O(n)
+// console.log(longestSubArrayWithSumK_2([1, 2, 0, -2, -1, 6, 1], 3));
+
+
+// ! for array with 0's and positive numbers
+function longestSubArrayWithSumK_3(arr: number[], k: number) {
+  let left = 0, right = 0;
+  let sum = arr[0];
+  let maxLength = 0;
+
+  while (right < arr.length) {
+    right++;
+    if (right < arr.length) {
+      sum += arr[right];
+    }
+
+    if (sum === k) {
+      maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    // if sum > k, reduce the subarray from left
+    // until sum becomes less or equal to k
+    while (left <= right && sum > k) {
+      sum -= arr[left];
+      left++;
+    }
+  }
+
+  return maxLength;
+}
+
+// TC: O(2n)
+// SC: O(1)
+// Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). 
+// Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. 
+// So, every time the inner loop does not run for n times rather it can run for n times in total.
+// So, the time complexity will be O(2*N) instead of O(N2).
+// console.log(longestSubArrayWithSumK_3([1, 2, 3, 0, 0, 0, 0, 6, 3], 6));
+
+
+// !=========================================================================//
