@@ -513,7 +513,6 @@ function getMissingNumber_3(arr: number[], n: number) {
 
 // !=========================================================================//
 
-
 /**
  * ?Problem Statement: Given an array that contains only 1 and 0 return the count of maximum consecutive ones in the array.
  *
@@ -657,7 +656,6 @@ function numberAppearOnce_4(nums: number[]) {
 
 // !=========================================================================//
 
-
 /**
  * ? Longest Subarray with given Sum K(Positives)
  * @example
@@ -733,10 +731,10 @@ function longestSubArrayWithSumK_2(arr: number[], k: number) {
 // SC: O(n)
 // console.log(longestSubArrayWithSumK_2([1, 2, 0, -2, -1, 6, 1], 3));
 
-
 // ! for array with 0's and positive numbers
 function longestSubArrayWithSumK_3(arr: number[], k: number) {
-  let left = 0, right = 0;
+  let left = 0,
+    right = 0;
   let sum = arr[0];
   let maxLength = 0;
 
@@ -763,11 +761,157 @@ function longestSubArrayWithSumK_3(arr: number[], k: number) {
 
 // TC: O(2n)
 // SC: O(1)
-// Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). 
-// Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. 
+// Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index).
+// Now, the inner while loop i.e. the left pointer can move up to the right pointer at most.
 // So, every time the inner loop does not run for n times rather it can run for n times in total.
 // So, the time complexity will be O(2*N) instead of O(N2).
 // console.log(longestSubArrayWithSumK_3([1, 2, 3, 0, 0, 0, 0, 6, 3], 6));
 
-
 // !=========================================================================//
+
+/**
+ * ? Problem Statement: Given an array of integers arr[] and an integer target.
+ * ? 1st variant: Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.
+ * ? 2nd variant: Return indices of the two numbers such that their sum is equal to the target. Otherwise, we will return {-1, -1}.
+ * ! Note: You are not allowed to use the same element twice. Example: If the target is equal to 6 and num[1] = 3, then nums[1] + nums[1] = target is not a solution.
+ */
+
+function twoSum_1(nums: number[], k: number) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === k) {
+        // return true;
+        return [i, j];
+      } else {
+        // return false;
+        return [-1, -1];
+      }
+    }
+  }
+}
+
+//? TC: O(n^2)
+//? SC: O(1)
+// console.log(twoSum_1([2, 6, 5, 8, 11], 15));
+
+function twoSum_2(nums: number[], k: number) {
+  let arrayHash = new Map<number, number>();
+
+  for (let i = 0; i < nums.length; i++) {
+    if (!arrayHash.has(k - nums[i])) {
+      arrayHash.set(nums[i], i);
+    } else {
+      // return true;
+      return [arrayHash.get(k - nums[i]), i];
+    }
+  }
+
+  // return false
+  return [-1, -1];
+}
+
+//? TC: O(n)
+//? SC: O(n)
+// console.log(twoSum_2([2, 8, 5, 6, 11], 15));
+
+// ? greedy approach
+function twoSum_3(nums: number[], k: number) {
+  let left = 0;
+  let right = nums.length - 1;
+  let originalNums = [...nums];
+  let sortedNums = nums.sort((a, b) => a - b);
+
+  while (left < right) {
+    let sum = sortedNums[left] + sortedNums[right];
+    if (sum === k) {
+      // return true;
+      return [originalNums.indexOf(sortedNums[left]), originalNums.indexOf(sortedNums[right])];
+    } else if (sum < k) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+}
+
+//? TC: O(n + nlogn)
+//? SC: O(n)
+// console.log(twoSum_3([2, 6, 5, 8, 11], 14));
+
+// !=====================================================================//
+
+/**
+ * ? Sort an array of 0s, 1s and 2s
+ * ? Problem Statement: Given an array consisting of only 0s, 1s, and 2s.
+ * ? Write a program to in-place sort the array without using inbuilt sort functions.
+ * ? (Expected: Single pass-O(N) and constant space)
+ */
+
+// 1. Merge sort -> TC: (nlogn) SC: O(n) but we need TC: O(n) and SC: (1)
+// 2. better solution
+
+function sortZeroOneAndTwo(nums: number[]) {
+  let zeroCounts = 0,
+    oneCounts = 0,
+    twoCounts = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) {
+      zeroCounts++;
+    } else if (nums[i] === 1) {
+      oneCounts++;
+    } else {
+      twoCounts++;
+    }
+  }
+
+  for (let i = 0; i < zeroCounts; i++) {
+    nums[i] = 0;
+  }
+
+  for (let i = zeroCounts; i < zeroCounts + oneCounts; i++) {
+    nums[i] = 1;
+  }
+
+  for (let i = zeroCounts + oneCounts; i < zeroCounts + oneCounts + twoCounts; i++) {
+    nums[i] = 2;
+  }
+
+  console.log(nums);
+}
+
+// TC: O(2n)
+// SC: O(1)
+// sortZeroOneAndTwo([1, 1, 0, 2, 0, 1]);
+
+/**
+ * Here, as the entire array is unsorted, we have placed the mid pointer in the first index 
+ * and the high pointer in the last index. The low is also pointing to the first index as we have no other index before 0. 
+ * Here, we are mostly interested in placing the ‘mid’ pointer and the ‘high’ pointer as they represent the unsorted part in the hypothetical array.
+ */
+function sortZeroOneAndTwo_2(nums: number[]) {
+  let low = 0, mid = 0, high = nums.length - 1;
+
+  function swap(i: number, j: number) {
+    let temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+  }
+
+  while (mid <= high) {
+    if (nums[mid] === 0) {
+      swap(low, mid);
+      low++;
+      mid++;
+    } else if (nums[mid] === 1) {
+      mid++;
+    } else {
+      swap(mid, high);
+      high--;
+    }
+  }
+
+  console.log(nums)
+}
+
+sortZeroOneAndTwo_2([1, 2, 0, 1, 2, 0])
