@@ -885,12 +885,16 @@ function sortZeroOneAndTwo(nums: number[]) {
 // sortZeroOneAndTwo([1, 1, 0, 2, 0, 1]);
 
 /**
- * Here, as the entire array is unsorted, we have placed the mid pointer in the first index 
- * and the high pointer in the last index. The low is also pointing to the first index as we have no other index before 0. 
+ * Here, as the entire array is unsorted, we have placed the mid pointer in the first index
+ * and the high pointer in the last index. The low is also pointing to the first index as we have no other index before 0.
  * Here, we are mostly interested in placing the ‘mid’ pointer and the ‘high’ pointer as they represent the unsorted part in the hypothetical array.
  */
+
+// !Dutch falg algorithm
 function sortZeroOneAndTwo_2(nums: number[]) {
-  let low = 0, mid = 0, high = nums.length - 1;
+  let low = 0,
+    mid = 0,
+    high = nums.length - 1;
 
   function swap(i: number, j: number) {
     let temp = nums[i];
@@ -911,7 +915,56 @@ function sortZeroOneAndTwo_2(nums: number[]) {
     }
   }
 
-  console.log(nums)
+  console.log(nums);
 }
 
-sortZeroOneAndTwo_2([1, 2, 0, 1, 2, 0])
+// TC: O(n)
+// SC: O(1)
+// sortZeroOneAndTwo_2([1, 2, 0, 1, 2, 0]); //! Can also work for any number k, l, m
+
+//! =========================================================================================//
+
+/**
+ * ! Problem Statement:
+ * ? Given an array of N integers, write a program to return an element that occurs more than N/2 times in the given array.
+ * ? You may consider that such an element always exists in the array.
+ */
+
+function findMajorityElement_1(nums: number[]) {
+  let arrayHash = new Array(nums.length + 1).fill(0);
+  let maxElement = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    arrayHash[nums[i]]++;
+  }
+
+  console.log(arrayHash);
+  for (let j = 0; j < arrayHash.length; j++) {
+    if (arrayHash[j] > maxElement) {
+      maxElement = arrayHash[j];
+    }
+  }
+
+  return arrayHash.indexOf(maxElement);
+}
+
+// TC: O(3n)
+// SC: O(n)
+// console.log(findMajorityElement_1([4,4,2,4,3,4,4,3,2,4]));
+
+function findMajorityElement_2(nums: number[]) {
+  let arrayMap = new Map<number, number>();
+  for (let i = 0; i < nums.length; i++) {
+    arrayMap.set(nums[i], (arrayMap.get(nums[i]) || 0) + 1);
+  }
+
+  for (const [key, value] of arrayMap) {
+    if (value > nums.length / 2) {
+      return key;
+    }
+  }
+}
+
+// TC: O(2n)
+// SC: O(n)
+console.log(findMajorityElement_2([4, 4, 2, 4, 3, 4, 4, 3, 2, 4]));
