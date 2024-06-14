@@ -967,4 +967,165 @@ function findMajorityElement_2(nums: number[]) {
 
 // TC: O(2n)
 // SC: O(n)
-console.log(findMajorityElement_2([4, 4, 2, 4, 3, 4, 4, 3, 2, 4]));
+// console.log(findMajorityElement_2([4, 4, 2, 4, 3, 4, 4, 3, 2, 4]));
+
+//! Moore’s Voting Algorithm
+function findMajorityElement_3(nums: number[]) {
+  let majorityElement = nums[0];
+  let count = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (count === 0) {
+      majorityElement = nums[i];
+    }
+
+    if (nums[i] === majorityElement) {
+      count++;
+    } else {
+      count--;
+    }
+  }
+
+  let scount = 0;
+
+  // verifing if the majority element is appearing more then n/2
+  // ! if the problem tells that there always exists a majority element then this check is not required;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === majorityElement) {
+      scount++;
+    }
+  }
+
+  if (scount > nums.length / 2) {
+    return majorityElement;
+  }
+
+  return -1;
+}
+
+// TS: O(2n) or O(n)
+// SC: o(1)
+// console.log(findMajorityElement_3([2, 2, 1, 3, 1, 1, 3, 1, 1]));
+
+// !==================================================================================//
+
+/**
+ * ? Problem Statement:
+ * ? Given an integer array arr, find the contiguous subarray (containing at least one number) which
+ * ? has the largest sum and returns its sum and prints the subarray.
+ */
+
+// brute force
+
+function maxSubArraySum_1(nums: number[]) {
+  let maxSum = -Infinity;
+
+  for (let i = 0; i < nums.length; i++) {
+    let sum = 0;
+    for (let j = i; j < nums.length; j++) {
+      sum += nums[j];
+
+      if (sum > maxSum) {
+        maxSum = Math.max(maxSum, sum);
+      }
+    }
+  }
+
+  return maxSum;
+}
+
+console.log(maxSubArraySum_1([-2, -3, 4, -1, -2, 1, 5, -3]));
+
+// my solution
+function maxSubArraySum(nums: number[]) {
+  let maxEle = 0;
+  let maxEleIndex = 0;
+  let sumMap = new Map<number, number>();
+  // find maximum element in the array
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > maxEle) {
+      maxEle = nums[i];
+      maxEleIndex = i;
+    }
+  }
+
+  if (maxEle === 0) {
+    return nums;
+  }
+
+  // going right to find sub array
+  for (let i = maxEleIndex; i < nums.length; i++) {
+    let sum = 0;
+    for (let j = maxEleIndex; j < nums.length; j++) {
+      sum += nums[j];
+      sumMap.set(j, sum);
+    }
+  }
+
+  // going left to find sub array
+  for (let i = maxEleIndex; i >= 0; i--) {
+    let sum = 0;
+    for (let j = maxEleIndex; j >= 0; j--) {
+      sum += nums[j];
+      sumMap.set(j, sum);
+    }
+  }
+
+  console.log({ sumMap });
+
+  let maxSum = 0;
+  let maxSumKey = 0;
+  for (let [key, value] of sumMap) {
+    if (value > maxSum) {
+      maxSum = value;
+      maxSumKey = key;
+    }
+  }
+
+  if (maxSumKey > maxEleIndex) {
+    return [maxEleIndex, maxSumKey];
+  } else {
+    return [maxSumKey, maxEleIndex];
+  }
+}
+
+// console.log(maxSubArraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+
+// ! Kadans algorithm
+function maxSubArraySum_3(nums: number[]) {
+  let maxSum = -Infinity;
+  let sum = 0;
+
+  let startIndex = -1;
+  let endIndex = -1;
+  let start = -1
+
+  for (let i = 0; i < nums.length; i++) {
+
+    if(sum === 0) {
+      start = i
+    }
+
+    sum += nums[i];
+
+    if (sum > maxSum) {
+      maxSum = sum;
+      startIndex = start;
+      endIndex = i;
+    }
+
+    if (sum < 0) {
+      sum = 0;
+    }
+  }
+
+  // empty subarray case [-1, -3] -> [-1] -> [] = 0
+  if(maxSum < 0) {
+    maxSum = 0
+  }
+
+  console.log([startIndex, endIndex])
+  return maxSum;
+}
+
+maxSubArraySum_3([-2, 1, -3, 4, -1, 2, 1, -5, 4])
