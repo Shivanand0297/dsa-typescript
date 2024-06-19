@@ -47,6 +47,9 @@ function bubbleSort(array: number[]) {
 // best: O(n)
 // worst, average: O(n^2)
 
+// take elment one by one and ask is it in the correct postion
+// takes an element and place it in its correct position
+// just go to the left and swap till it is possible to swap (nums[left] > nums[right])
 function insertionSort(array: number[]) {
   for (let i = 0; i <= array.length - 1; i++) {
     let j = i;
@@ -67,8 +70,10 @@ function insertionSort(array: number[]) {
 // worst, average: O(n^2)
 
 let arrayToSort = [12, 43, 56, 4, 7, 9, 12, -3];
+
+//! divide and merge
 function mergeSort(array: number[], low: number, high: number) {
-  if (low >= high) return;
+  if (low >= high) return; // or low === high
 
   let mid = Math.floor((low + high) / 2);
 
