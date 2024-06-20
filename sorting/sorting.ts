@@ -114,6 +114,8 @@ function mergeSort(array: number[], low: number, high: number) {
   merge(low, mid, high);
 }
 
+// TC: best, average, worst -> O(n log(n))
+// SC: O(n)
 mergeSort(arrayToSort, 0, arrayToSort.length - 1);
 // console.log("sorted array: ", arrayToSort)
 
@@ -133,10 +135,14 @@ function getPartitionIndex(array: number[], low: number, high: number): number {
   let pivotElement = array[low];
 
   while (i < j) {
-    while (array[i] <= pivotElement && i < high - 1) {
+
+    // find first element greater then the pivot
+    while (array[i] <= pivotElement && i <= high - 1) {
       i++;
     }
-    while (array[j] > pivotElement && j > low - 1) {
+
+    // find first element lesser then the pivot
+    while (array[j] > pivotElement && j >= low + 1) {
       j--;
     }
 
@@ -148,6 +154,7 @@ function getPartitionIndex(array: number[], low: number, high: number): number {
     }
   }
 
+  // swap the pivot and j
   let temp = array[low];
   array[low] = array[j];
   array[j] = temp;
@@ -160,6 +167,12 @@ function getPartitionIndex(array: number[], low: number, high: number): number {
  * @param {number[]} array - The array to be sorted.
  * @param {number} low - The starting index of the subarray to be sorted.
  * @param {number} high - The ending index of the subarray to be sorted.
+ * 
+ * @description:
+ * 1. Pick a pivot element (any element for simplicity we take first element) and place it in its correct order in the sorted array
+ * 2. Smaller on the left and larger on the right
+ * 3. repeat step 1 and 2
+ * ! Devide and Conqueror algorithm
  */
 function quickSort(array: number[], low: number, high: number) {
   if (low < high) {
@@ -170,6 +183,9 @@ function quickSort(array: number[], low: number, high: number) {
 }
 
 quickSort(arrayToSort, 0, arrayToSort.length - 1);
+
+// TC: O(nlogn)
+// SC: O(1)
 console.log("sorted array: ", arrayToSort)
 
 // ?====================================================================//
