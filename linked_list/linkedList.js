@@ -17,7 +17,7 @@ class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
-    this.prev = null;
+    this.prev = null; //! for doubly linked list
   }
 }
 
@@ -39,7 +39,7 @@ class DoublyLinkedList {
     //   prev: null
     // }
     const newNode = new Node(value);
-    newNode.prev = this.tail; // for doubly linked list;
+    newNode.prev = this.tail; //! for doubly linked list;
     this.tail.next = newNode;
     this.tail = newNode;
     this.length++;
@@ -53,7 +53,7 @@ class DoublyLinkedList {
     // }
     const newNode = new Node(value);
     newNode.next = this.head;
-    this.head.prev = newNode; // for doubly linked list
+    this.head.prev = newNode; //! for doubly linked list
     this.head = newNode;
     this.length++;
   }

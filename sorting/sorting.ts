@@ -154,7 +154,7 @@ function getPartitionIndex(array: number[], low: number, high: number): number {
     }
   }
 
-  // swap the pivot and j
+  // swap the low and j
   let temp = array[low];
   array[low] = array[j];
   array[j] = temp;
